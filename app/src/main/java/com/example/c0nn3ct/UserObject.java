@@ -4,7 +4,7 @@ public class UserObject {
 
     private String name, phone;
 
-    public UserObject(String name, String phone) {
+    UserObject(String name, String phone) {
         this.name = name;
         this.phone = phone;
     }
@@ -13,7 +13,7 @@ public class UserObject {
         return name;
     }
 
-    public String getPhone() {
+    String getPhone() {
         return phone;
     }
 }

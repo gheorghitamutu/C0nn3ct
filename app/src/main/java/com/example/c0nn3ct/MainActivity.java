@@ -63,11 +63,11 @@ public class MainActivity extends AppCompatActivity {
             public void onVerificationFailed(@NonNull FirebaseException e) {}
 
             @Override
-            public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(verificationId, forceResendingToken);
 
                 mVerificationId = verificationId;
-                mSendPhoneVerificationCode.setText("Verify code");
+                mSendPhoneVerificationCode.setText(R.string.verify_code);
             }
         };
     }
@@ -83,12 +83,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signInWithPhoneAuthCredentials(PhoneAuthCredential phoneAuthCredential) {
-        FirebaseAuth.getInstance().signInWithCredential(phoneAuthCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    userIsLoggedIn();
-                }
+        FirebaseAuth.getInstance().signInWithCredential(phoneAuthCredential).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                userIsLoggedIn();
             }
         });
     }
