@@ -16,4 +16,8 @@ public class UserObject {
     String getPhone() {
         return phone;
     }
+
+    void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

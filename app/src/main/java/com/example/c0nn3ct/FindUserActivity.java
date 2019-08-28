@@ -90,17 +90,31 @@ public class FindUserActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    String phone, name;
-                    for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String phone = "", name = "";
+
+                    if(dataSnapshot.getChildrenCount() > 0) {
+                        DataSnapshot childSnapshot = dataSnapshot.getChildren().iterator().next();
+
                         if(childSnapshot.child("phone").getValue() != null) {
                             phone = Objects.requireNonNull(childSnapshot.child("phone").getValue()).toString();
-                            name = Objects.requireNonNull(childSnapshot.child("name").getValue()).toString();
-
-                            UserObject userObject = new UserObject(name, phone);
-                            userList.add(userObject);
-
-                            return;
                         }
+
+                        if(childSnapshot.child("phone").getValue() != null) {
+                            name = Objects.requireNonNull(childSnapshot.child("name").getValue()).toString();
+                        }
+
+                        UserObject user = new UserObject(name, phone);
+
+                        if (name.equals(phone)) {
+                            for (UserObject contact : contactList) {
+                                if(contact.getPhone().equals(user.getPhone())) {
+                                    user.setPhone(contact.getPhone());
+                                    break;
+                                }
+                            }
+                        }
+
+                        userList.add(user);
                     }
                 }
             }
@@ -117,7 +131,7 @@ public class FindUserActivity extends AppCompatActivity {
 
         getApplicationContext();
         TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(TELEPHONY_SERVICE);
-        if (telephonyManager.getNetworkCountryIso() != null && !telephonyManager.getNetworkCountryIso().equals("")) {
+        if (telephonyManager.getNetworkCountryIso() != null) {
             iso = telephonyManager.getNetworkCountryIso();
         }
 
