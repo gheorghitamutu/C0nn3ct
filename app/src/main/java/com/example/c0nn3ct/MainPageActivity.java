@@ -27,7 +27,7 @@ public class MainPageActivity extends AppCompatActivity {
         mLogOut.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
